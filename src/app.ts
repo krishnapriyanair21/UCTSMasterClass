@@ -39,3 +39,19 @@ bindFunction('123','456');
 bindFunction('ABC', 'DEF');
 myFunction.call(myObj, 'ABC', 'DEF'); // c for call and comma
 myFunction.apply(myObj, ['ABC', 'DEF']); // a for apply and array
+
+/* Arrow Function and Lexical scope */
+class MyClass2{
+  myMethod() {
+    const foo = 123;
+    console.log('1', this);
+    setTimeout(() => {
+      console.log('2', this); // scope of this statements
+    }, 0); 
+  }
+  foo() {
+    const foo = 456; // different scope than previous foo
+  }
+}
+const MyInstance2 = new MyClass2;
+MyInstance2.myMethod();
