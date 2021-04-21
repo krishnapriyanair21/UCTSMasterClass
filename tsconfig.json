@@ -3,7 +3,6 @@
     "target": "es5",
     "module": "commonjs",
     "lib": ["dom", "es6"],
-    "outDir": "dist",
-    "noImplicitThis": true
+    "outDir": "dist"
   }
 }
