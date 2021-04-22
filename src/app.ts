@@ -1,67 +1,36 @@
-/* A “this” Keyword Primer */
+/* “typeof” Type Queries */
+typeof ''; // string
+typeof []; // object
 
-// function
-// function myFunction() {
-//   console.log('Function:::', this);
-// }
-
-// myFunction();
-
-// Object literal
-const myObj = {
-  myMethod() {
-    console.log('Object::::', this);
-  }
+const person = {
+  name: 'Todd',
+  age :27
 }
-// myObj.myMethod();
+type Person = typeof person;
 
-// Classes
-// class MyClass{
-//   MyMethod() {
-//     console.log('Class::::', this);
-//   }
-// }
+const anotherPerson: Person = {
+  name: 'John',
+  age: 30
+}
 
-// const MyInstance = new MyClass();
-// MyInstance.MyMethod();
+const anotherOtherPerson: typeof person = { // different syntax same result
+  name: 'name 3',
+  age: 3
+}
+// JavaScript (keep commented)
+// typeof person = 'object'
 
-/* Exploring “this” with .call, .apply and .bind */
+/* "keyof" Index Type Queries */
 // continued
-// function myFunction(...text: string[]) {
-//   console.log('Function:::', this, text);
-// }
+type PersonKeys = keyof Person; // name | age
+type PersonTypes = Person[PersonKeys];  // pure types
 
-// myFunction('ABC', 'DEF');
-// const bindFunction = myFunction.bind(myObj);
-// // bind will take initial function, bind context to it, then give it a new context on call
-// bindFunction('ABC', 'DEF');
-// bindFunction('123','456');
-// bindFunction('ABC', 'DEF');
-// myFunction.call(myObj, 'ABC', 'DEF'); // c for call and comma
-// myFunction.apply(myObj, ['ABC', 'DEF']); // a for apply and array
+/* “keyof”, Generics and Lookup Types */
+// continued
+function getProperty<T,K extends keyof T>(obj: T, key: K) {
 
-/* Arrow Function and Lexical scope */
-// class MyClass2{
-//   myMethod() {
-//     const foo = 123;
-//     console.log('1', this);
-//     setTimeout(() => {
-//       console.log('2', this); // scope of this statements
-//     }, 0); 
-//   }
-//   foo() {
-//     const foo = 456; // different scope than previous foo
-//   }
-// }
-// const MyInstance2 = new MyClass2;
-// MyInstance2.myMethod();
-
-/* Typing "this" and "noImplicitThis" */
-const elem = document.querySelector('.click');
-
-function handleClick(this: HTMLAnchorElement, event: Event) {
-  event.preventDefault();
-  console.log(this.className);
+  return obj[key];
 }
 
-elem.addEventListener('click', handleClick, false);
+const personName = getProperty(person, 'name'); // like 25 types (string)
+const personAges = getProperty(person, 'age'); // like 25 types (number)
