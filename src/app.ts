@@ -24,3 +24,13 @@ const anotherOtherPerson: typeof person = { // different syntax same result
 // continued
 type PersonKeys = keyof Person; // name | age
 type PersonTypes = Person[PersonKeys];  // pure types
+
+/* “keyof”, Generics and Lookup Types */
+// continued
+function getProperty<T,K extends keyof T>(obj: T, key: K) {
+
+  return obj[key];
+}
+
+const personName = getProperty(person, 'name'); // like 25 types (string)
+const personAges = getProperty(person, 'age'); // like 25 types (number)
