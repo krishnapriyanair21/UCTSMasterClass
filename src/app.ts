@@ -53,23 +53,39 @@
 
 /* “Required” Mapped Type, +/- Modifiers */
 
+// interface Person{
+//   name: string;
+//   age?: number;
+// }
+
+// type MyRequired<T> = { // built into TS
+//   // [P in keyof T]?: T[P];
+//   // [P in keyof T]+?: T[P]; same as previous line
+//   +readonly [P in keyof T]-?: T[P]; 
+// }
+
+// function printAge(person: Required<Person>) {
+//   return `${person.name} is ${person.age}`;
+// }
+
+// const person: Required<Person> = {
+//   name: 'Todd',
+//   age: 27
+// }
+// const age = printAge(person);
+
+/* "Pick" Mapped Type */
 interface Person{
   name: string;
-  age?: number;
+  age: number;
+  address: {}
 }
 
-type MyRequired<T> = { // built into TS
-  // [P in keyof T]?: T[P];
-  // [P in keyof T]+?: T[P]; same as previous line
-  +readonly [P in keyof T]-?: T[P]; 
-}
+type MyPick<T, K extends keyof T> = { // built in
+  [P in K]: T[P]
+};
 
-function printAge(person: Required<Person>) {
-  return `${person.name} is ${person.age}`;
-}
-
-const person: Required<Person> = {
+const person: Pick<Person, 'name' | 'age'> = { // hardcode options we want 
   name: 'Todd',
-  age: 27
+  age: 27,
 }
-const age = printAge(person);
