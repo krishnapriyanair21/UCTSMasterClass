@@ -1,36 +1,109 @@
-/* “typeof” Type Queries */
-typeof ''; // string
-typeof []; // object
+/* "Readonly" Mapped Type */
+// interface Person{
+//   name: string;
+//   age: number;
+// }
 
-const person = {
-  name: 'Todd',
-  age :27
+// interface ReadonlyPerson{
+//   readonly name: string;
+//   readonly age: number;
+// }
+
+// const person: Person = {
+//   name: 'Todd',
+//   age: 27
+// }
+
+// type MyReadonly<T> = {
+//   readonly [P in keyof T]: T[P]
+// }
+
+// function freeze<T>(person: T): Readonly<T>{
+//   return Object.freeze(person);
+// }
+
+// const newPerson = freeze(person);
+// /// newPerson.age = 543; // will not work
+
+/* "Partial" Mapped Type */
+
+// interface Person{
+//   name: string;
+//   age: number;
+// }
+
+// // interface PartialPerson{
+// //   name?: string;
+// //   age?: number;
+// // }
+
+// type MyPartial<T> = { // built into type script with Partial
+//   [P in keyof T]?: T[P]
+// }
+
+// function updatePerson(person: Person, prop: Partial<Person>) {
+//   return { ...person, ...prop };
+// }
+// const person: Person = {
+//   name: 'Todd',
+//   age: 27
+// }
+
+// updatePerson(person, { name: 'ABC' });
+
+/* “Required” Mapped Type, +/- Modifiers */
+
+// interface Person{
+//   name: string;
+//   age?: number;
+// }
+
+// type MyRequired<T> = { // built into TS
+//   // [P in keyof T]?: T[P];
+//   // [P in keyof T]+?: T[P]; same as previous line
+//   +readonly [P in keyof T]-?: T[P]; 
+// }
+
+// function printAge(person: Required<Person>) {
+//   return `${person.name} is ${person.age}`;
+// }
+
+// const person: Required<Person> = {
+//   name: 'Todd',
+//   age: 27
+// }
+// const age = printAge(person);
+
+/* "Pick" Mapped Type */
+
+// interface Person{
+//   name: string;
+//   age: number;
+//   address: {}
+// }
+
+// type MyPick<T, K extends keyof T> = { // built in
+//   [P in K]: T[P]
+// };
+
+// const person: Pick<Person, 'name' | 'age'> = { // hardcode options we want 
+//   name: 'Todd',
+//   age: 27,
+// }
+
+/* "Record" Mapped Type */
+
+// let dictionary: { [key: string]: any } = {};
+let dictionary: Record<string, TrackStates> = {};
+interface TrackStates{
+  current: string;
+  next: string;
 }
-type Person = typeof person;
-
-const anotherPerson: Person = {
-  name: 'John',
-  age: 30
+const item: Record<keyof TrackStates, string> = {
+  current: 'jsd350d',
+  next: 'add265d'
 }
 
-const anotherOtherPerson: typeof person = { // different syntax same result
-  name: 'name 3',
-  age: 3
-}
-// JavaScript (keep commented)
-// typeof person = 'object'
-
-/* "keyof" Index Type Queries */
-// continued
-type PersonKeys = keyof Person; // name | age
-type PersonTypes = Person[PersonKeys];  // pure types
-
-/* “keyof”, Generics and Lookup Types */
-// continued
-function getProperty<T,K extends keyof T>(obj: T, key: K) {
-
-  return obj[key];
-}
-
-const personName = getProperty(person, 'name'); // like 25 types (string)
-const personAges = getProperty(person, 'age'); // like 25 types (number)
+// numbers are coerced to string
+// 0 -> '0'
+dictionary[0] = item;
