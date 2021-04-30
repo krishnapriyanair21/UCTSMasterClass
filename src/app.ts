@@ -27,26 +27,49 @@
 
 /* "Partial" Mapped Type */
 
-interface Person{
-  name: string;
-  age: number;
-}
-
-// interface PartialPerson{
-//   name?: string;
-//   age?: number;
+// interface Person{
+//   name: string;
+//   age: number;
 // }
 
-type MyPartial<T> = { // built into type script with Partial
-  [P in keyof T]?: T[P]
+// // interface PartialPerson{
+// //   name?: string;
+// //   age?: number;
+// // }
+
+// type MyPartial<T> = { // built into type script with Partial
+//   [P in keyof T]?: T[P]
+// }
+
+// function updatePerson(person: Person, prop: Partial<Person>) {
+//   return { ...person, ...prop };
+// }
+// const person: Person = {
+//   name: 'Todd',
+//   age: 27
+// }
+
+// updatePerson(person, { name: 'ABC' });
+
+/* “Required” Mapped Type, +/- Modifiers */
+
+interface Person{
+  name: string;
+  age?: number;
 }
 
-function updatePerson(person: Person, prop: Partial<Person>) {
-  return { ...person, ...prop };
+type MyRequired<T> = { // built into TS
+  // [P in keyof T]?: T[P];
+  // [P in keyof T]+?: T[P]; same as previous line
+  +readonly [P in keyof T]-?: T[P]; 
 }
-const person: Person = {
+
+function printAge(person: Required<Person>) {
+  return `${person.name} is ${person.age}`;
+}
+
+const person: Required<Person> = {
   name: 'Todd',
   age: 27
 }
-
-updatePerson(person, { name: 'ABC' });
+const age = printAge(person);
