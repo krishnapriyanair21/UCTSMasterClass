@@ -75,17 +75,35 @@
 // const age = printAge(person);
 
 /* "Pick" Mapped Type */
-interface Person{
-  name: string;
-  age: number;
-  address: {}
+
+// interface Person{
+//   name: string;
+//   age: number;
+//   address: {}
+// }
+
+// type MyPick<T, K extends keyof T> = { // built in
+//   [P in K]: T[P]
+// };
+
+// const person: Pick<Person, 'name' | 'age'> = { // hardcode options we want 
+//   name: 'Todd',
+//   age: 27,
+// }
+
+/* "Record" Mapped Type */
+
+// let dictionary: { [key: string]: any } = {};
+let dictionary: Record<string, TrackStates> = {};
+interface TrackStates{
+  current: string;
+  next: string;
+}
+const item: Record<keyof TrackStates, string> = {
+  current: 'jsd350d',
+  next: 'add265d'
 }
 
-type MyPick<T, K extends keyof T> = { // built in
-  [P in K]: T[P]
-};
-
-const person: Pick<Person, 'name' | 'age'> = { // hardcode options we want 
-  name: 'Todd',
-  age: 27,
-}
+// numbers are coerced to string
+// 0 -> '0'
+dictionary[0] = item;
