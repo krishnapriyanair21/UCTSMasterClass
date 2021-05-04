@@ -1,109 +1,38 @@
-/* "Readonly" Mapped Type */
-// interface Person{
-//   name: string;
-//   age: number;
-// }
+/* “typeof” and Type Guards */
 
-// interface ReadonlyPerson{
-//   readonly name: string;
-//   readonly age: number;
-// }
+/* example
+  function foo(bar: string | number) {
+    if (typeof bar === 'string') {
+      // string
+      // bar. will give you string functions
+      return bar.toUpperCase;
+    }
+    // number
+    // bar. will give you number prototypes
 
-// const person: Person = {
-//   name: 'Todd',
-//   age: 27
-// }
-
-// type MyReadonly<T> = {
-//   readonly [P in keyof T]: T[P]
-// }
-
-// function freeze<T>(person: T): Readonly<T>{
-//   return Object.freeze(person);
-// }
-
-// const newPerson = freeze(person);
-// /// newPerson.age = 543; // will not work
-
-/* "Partial" Mapped Type */
-
-// interface Person{
-//   name: string;
-//   age: number;
-// }
-
-// // interface PartialPerson{
-// //   name?: string;
-// //   age?: number;
-// // }
-
-// type MyPartial<T> = { // built into type script with Partial
-//   [P in keyof T]?: T[P]
-// }
-
-// function updatePerson(person: Person, prop: Partial<Person>) {
-//   return { ...person, ...prop };
-// }
-// const person: Person = {
-//   name: 'Todd',
-//   age: 27
-// }
-
-// updatePerson(person, { name: 'ABC' });
-
-/* “Required” Mapped Type, +/- Modifiers */
-
-// interface Person{
-//   name: string;
-//   age?: number;
-// }
-
-// type MyRequired<T> = { // built into TS
-//   // [P in keyof T]?: T[P];
-//   // [P in keyof T]+?: T[P]; same as previous line
-//   +readonly [P in keyof T]-?: T[P]; 
-// }
-
-// function printAge(person: Required<Person>) {
-//   return `${person.name} is ${person.age}`;
-// }
-
-// const person: Required<Person> = {
-//   name: 'Todd',
-//   age: 27
-// }
-// const age = printAge(person);
-
-/* "Pick" Mapped Type */
-
-// interface Person{
-//   name: string;
-//   age: number;
-//   address: {}
-// }
-
-// type MyPick<T, K extends keyof T> = { // built in
-//   [P in K]: T[P]
-// };
-
-// const person: Pick<Person, 'name' | 'age'> = { // hardcode options we want 
-//   name: 'Todd',
-//   age: 27,
-// }
-
-/* "Record" Mapped Type */
-
-// let dictionary: { [key: string]: any } = {};
-let dictionary: Record<string, TrackStates> = {};
-interface TrackStates{
-  current: string;
-  next: string;
-}
-const item: Record<keyof TrackStates, string> = {
-  current: 'jsd350d',
-  next: 'add265d'
+  } 
+*/
+class Song{
+  constructor(public title: string, public duration: string | number) { }
 }
 
-// numbers are coerced to string
-// 0 -> '0'
-dictionary[0] = item;
+function getSongDuration(item: Song) {
+  if (typeof item.duration === 'string') {
+    return item.duration;
+  }
+  /* item.duration will be a number */
+  const { duration } = item;
+  const minutes = Math.floor(duration / 60000);
+  const seconds = (duration / 1000) % 60;
+  return `${minutes}:${seconds}`;
+}
+const songDurationFromString = getSongDuration(
+  new Song('Wonderful Wonderful', '05:31')
+)
+console.log(songDurationFromString);
+
+const songDurationFromMS = getSongDuration(
+  new Song('Wonderful Wonderful 2', 330000)
+)
+
+console.log(songDurationFromMS);
