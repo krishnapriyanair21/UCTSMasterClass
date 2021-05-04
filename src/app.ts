@@ -48,6 +48,33 @@ class Foo{
 // console.log(bar instanceof Foo); // same result as below
 // console.log(Object.getPrototypeOf(bar) === Foo.prototype);
 
+// class Song{
+//   constructor(public title: string, public duration: number) { }
+// }
+// class Playlist {
+//   constructor(public name: string, public songs: Song[]) { }
+// }
+
+// function getItemName(item: Song | Playlist) {
+//   if (item instanceof Song) {
+//     return item.title;
+//   }
+//   return item.name;
+//   // if((item as Song).title){
+//   //   return (item as Song).title;
+//   // }
+//   // return (item as Playlist).name;
+// }
+
+// const songName = getItemName(new Song('Wonder', 300000));
+// console.log('Song name:', songName);
+
+// const playlistName = getItemName(new Playlist('The Best Songs', [new Song('Heyyo', 300000)]));
+// console.log('Playlist Name: ', playlistName);
+
+/* User Defined Type Guards */
+// continued
+
 class Song{
   constructor(public title: string, public duration: number) { }
 }
@@ -55,15 +82,14 @@ class Playlist {
   constructor(public name: string, public songs: Song[]) { }
 }
 
+function isSong(item: any): item is Song { // manually define type guard 
+  return item instanceof Song;
+}
 function getItemName(item: Song | Playlist) {
-  if (item instanceof Song) {
+  if (isSong(item)) {
     return item.title;
   }
   return item.name;
-  // if((item as Song).title){
-  //   return (item as Song).title;
-  // }
-  // return (item as Playlist).name;
 }
 
 const songName = getItemName(new Song('Wonder', 300000));
