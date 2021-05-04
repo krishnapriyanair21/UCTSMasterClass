@@ -75,18 +75,51 @@ class Foo{
 /* User Defined Type Guards */
 // continued
 
+// class Song{
+//   constructor(public title: string, public duration: number) { }
+// }
+// class Playlist {
+//   constructor(public name: string, public songs: Song[]) { }
+// }
+
+// function isSong(item: any): item is Song { // manually define type guard 
+//   return item instanceof Song;
+// }
+// function getItemName(item: Song | Playlist) {
+//   if (isSong(item)) {
+//     return item.title;
+//   }
+//   return item.name;
+// }
+
+// const songName = getItemName(new Song('Wonder', 300000));
+// console.log('Song name:', songName);
+
+// const playlistName = getItemName(new Playlist('The Best Songs', [new Song('Heyyo', 300000)]));
+// console.log('Playlist Name: ', playlistName);
+
+/* Literal Type Guards and “in” Operator */
+// continued
+
+// const exists = 'localStorage' in window; // checks if local storage exists in window
+// in can be used in for loops
+// const foo = 'bar'; // type is 'bar'
 class Song{
+  kind: 'song'; // type song
   constructor(public title: string, public duration: number) { }
 }
 class Playlist {
+  kind: 'playlist'
   constructor(public name: string, public songs: Song[]) { }
 }
 
-function isSong(item: any): item is Song { // manually define type guard 
-  return item instanceof Song;
+function isSong(item: any): item is Song { 
+  return 'title' in item; // does property title exist in item
+  // return item instanceof Song;
 }
 function getItemName(item: Song | Playlist) {
-  if (isSong(item)) {
+  //if (isSong(item)) {
+  if (item.kind === 'song'){ // same as above (does not need function)
     return item.title;
   }
   return item.name;
