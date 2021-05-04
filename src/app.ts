@@ -1,109 +1,132 @@
-/* "Readonly" Mapped Type */
-// interface Person{
-//   name: string;
-//   age: number;
+/* “typeof” and Type Guards */
+
+/* example
+  function foo(bar: string | number) {
+    if (typeof bar === 'string') {
+      // string
+      // bar. will give you string functions
+      return bar.toUpperCase;
+    }
+    // number
+    // bar. will give you number prototypes
+
+  } 
+*/
+// class Song{
+//   constructor(public title: string, public duration: string | number) { }
 // }
 
-// interface ReadonlyPerson{
-//   readonly name: string;
-//   readonly age: number;
+// function getSongDuration(item: Song) {
+//   if (typeof item.duration === 'string') {
+//     return item.duration;
+//   }
+//   /* item.duration will be a number */
+//   const { duration } = item;
+//   const minutes = Math.floor(duration / 60000);
+//   const seconds = (duration / 1000) % 60;
+//   return `${minutes}:${seconds}`;
 // }
+// const songDurationFromString = getSongDuration(
+//   new Song('Wonderful Wonderful', '05:31')
+// )
+// console.log(songDurationFromString);
 
-// const person: Person = {
-//   name: 'Todd',
-//   age: 27
-// }
+// const songDurationFromMS = getSongDuration(
+//   new Song('Wonderful Wonderful 2', 330000)
+// )
 
-// type MyReadonly<T> = {
-//   readonly [P in keyof T]: T[P]
-// }
+// console.log(songDurationFromMS);
 
-// function freeze<T>(person: T): Readonly<T>{
-//   return Object.freeze(person);
-// }
+/* "instanceof" and TypeGuards */
 
-// const newPerson = freeze(person);
-// /// newPerson.age = 543; // will not work
+// what is instanceof
 
-/* "Partial" Mapped Type */
-
-// interface Person{
-//   name: string;
-//   age: number;
-// }
-
-// // interface PartialPerson{
-// //   name?: string;
-// //   age?: number;
-// // }
-
-// type MyPartial<T> = { // built into type script with Partial
-//   [P in keyof T]?: T[P]
-// }
-
-// function updatePerson(person: Person, prop: Partial<Person>) {
-//   return { ...person, ...prop };
-// }
-// const person: Person = {
-//   name: 'Todd',
-//   age: 27
-// }
-
-// updatePerson(person, { name: 'ABC' });
-
-/* “Required” Mapped Type, +/- Modifiers */
-
-// interface Person{
-//   name: string;
-//   age?: number;
-// }
-
-// type MyRequired<T> = { // built into TS
-//   // [P in keyof T]?: T[P];
-//   // [P in keyof T]+?: T[P]; same as previous line
-//   +readonly [P in keyof T]-?: T[P]; 
-// }
-
-// function printAge(person: Required<Person>) {
-//   return `${person.name} is ${person.age}`;
-// }
-
-// const person: Required<Person> = {
-//   name: 'Todd',
-//   age: 27
-// }
-// const age = printAge(person);
-
-/* "Pick" Mapped Type */
-
-// interface Person{
-//   name: string;
-//   age: number;
-//   address: {}
-// }
-
-// type MyPick<T, K extends keyof T> = { // built in
-//   [P in K]: T[P]
-// };
-
-// const person: Pick<Person, 'name' | 'age'> = { // hardcode options we want 
-//   name: 'Todd',
-//   age: 27,
-// }
-
-/* "Record" Mapped Type */
-
-// let dictionary: { [key: string]: any } = {};
-let dictionary: Record<string, TrackStates> = {};
-interface TrackStates{
-  current: string;
-  next: string;
+class Foo{
+  bar() { }
 }
-const item: Record<keyof TrackStates, string> = {
-  current: 'jsd350d',
-  next: 'add265d'
+// const bar = new Foo();
+// console.log(bar instanceof Foo); // same result as below
+// console.log(Object.getPrototypeOf(bar) === Foo.prototype);
+
+// class Song{
+//   constructor(public title: string, public duration: number) { }
+// }
+// class Playlist {
+//   constructor(public name: string, public songs: Song[]) { }
+// }
+
+// function getItemName(item: Song | Playlist) {
+//   if (item instanceof Song) {
+//     return item.title;
+//   }
+//   return item.name;
+//   // if((item as Song).title){
+//   //   return (item as Song).title;
+//   // }
+//   // return (item as Playlist).name;
+// }
+
+// const songName = getItemName(new Song('Wonder', 300000));
+// console.log('Song name:', songName);
+
+// const playlistName = getItemName(new Playlist('The Best Songs', [new Song('Heyyo', 300000)]));
+// console.log('Playlist Name: ', playlistName);
+
+/* User Defined Type Guards */
+// continued
+
+// class Song{
+//   constructor(public title: string, public duration: number) { }
+// }
+// class Playlist {
+//   constructor(public name: string, public songs: Song[]) { }
+// }
+
+// function isSong(item: any): item is Song { // manually define type guard 
+//   return item instanceof Song;
+// }
+// function getItemName(item: Song | Playlist) {
+//   if (isSong(item)) {
+//     return item.title;
+//   }
+//   return item.name;
+// }
+
+// const songName = getItemName(new Song('Wonder', 300000));
+// console.log('Song name:', songName);
+
+// const playlistName = getItemName(new Playlist('The Best Songs', [new Song('Heyyo', 300000)]));
+// console.log('Playlist Name: ', playlistName);
+
+/* Literal Type Guards and “in” Operator */
+// continued
+
+// const exists = 'localStorage' in window; // checks if local storage exists in window
+// in can be used in for loops
+// const foo = 'bar'; // type is 'bar'
+class Song{
+  kind: 'song'; // type song
+  constructor(public title: string, public duration: number) { }
+}
+class Playlist {
+  kind: 'playlist'
+  constructor(public name: string, public songs: Song[]) { }
 }
 
-// numbers are coerced to string
-// 0 -> '0'
-dictionary[0] = item;
+function isSong(item: any): item is Song { 
+  return 'title' in item; // does property title exist in item
+  // return item instanceof Song;
+}
+function getItemName(item: Song | Playlist) {
+  //if (isSong(item)) {
+  if (item.kind === 'song'){ // same as above (does not need function)
+    return item.title;
+  }
+  return item.name;
+}
+
+const songName = getItemName(new Song('Wonder', 300000));
+console.log('Song name:', songName);
+
+const playlistName = getItemName(new Playlist('The Best Songs', [new Song('Heyyo', 300000)]));
+console.log('Playlist Name: ', playlistName);
