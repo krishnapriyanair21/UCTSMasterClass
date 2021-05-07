@@ -88,3 +88,25 @@ function checkout(payload: Payload) {
     console.log(payload.email);
   }
 }
+
+/* Interfaces vs Type Aliases */
+interface Item{
+  songs: number;
+}
+interface Artist extends Item{
+  name: string;
+}
+ 
+interface Artist{
+  getSongs(): number;
+}
+type Artist2 = { name: string } & Item;
+
+//explore
+const newArtist: Artist = {
+  name: 'ABC',
+  songs: 5,
+  getSongs() {
+    return this.songs;
+  }
+}
