@@ -30,3 +30,21 @@ class Coupon{
 const anotherList = new List<Coupon>();
 
 anotherList.addItem(new Coupon('PIZA25'));
+
+/* Function Overloads */
+// func overloads (order will determine which shows up first)
+function reverse(str: string): string; 
+function reverse<T>(arr: T[]): T[];
+// implementation
+function reverse<T>(stringOrArray: string | T[]): string | T[] {
+  if (typeof stringOrArray === 'string') {
+    return stringOrArray
+      .split('') 
+      .reverse()
+      .join('');
+  }
+  return stringOrArray.slice().reverse();
+}
+
+reverse('Pepperoni');
+reverse(['bacon', 'pepperoni', 'chili', 'mushrooms']);
