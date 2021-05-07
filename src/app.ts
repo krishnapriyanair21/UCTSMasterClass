@@ -110,3 +110,19 @@ const newArtist: Artist = {
     return this.songs;
   }
 }
+
+/* Interfaces vs Classes */
+
+interface IArtist{
+  name: string;
+}
+
+class ArtistCreator /*implements IArtist*/{
+  constructor(public name:string){ }
+}
+
+function artistFactory({ name }: ArtistCreator) {
+  return { id: 101, name };
+}
+
+artistFactory({ name: 'Todd' });
