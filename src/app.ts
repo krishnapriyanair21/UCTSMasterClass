@@ -1,128 +1,32 @@
-/* Intersection Types */
+/* Function Generics */
 
-// interface Order{
-//   id: string;
-//   amount: number;
-//   currency: string;
-// }
-
-// interface Stripe{
-//   card: string;
-//   cvc: string;
-// }
-
-// interface PayPal{
-//   email: string;
-// }
-//  // keeps interfaces separate
-// type CheckoutCard = Order & Stripe;
-// type CheckoutPayPal = Order & PayPal;
-
-// const order: Order = {
-//   id: 'xj28s',
-//   amount: 100,
-//   currency: 'USD'
-// };
-
-// const orderCard: CheckoutCard = {
-//   ...order,
-//   card: '1000 2000 3000 4000',
-//   cvc:'123'
-// };
-
-// const orderPayPal: CheckoutPayPal = {
-//   ...order,
-//   email: 'abc@def.com'
-// };
-
-// const assigned = Object.assign({}, order, orderCard);
-
-/* Discriminated (Tagged) Unions */
- // continued
-
- interface Order{
-  id: string;
-  amount: number;
-  currency: string;
+class Pizza {
+  constructor(private name: string, private price: number) { }
 }
+class List<T>{
+  private list: T[];
+  
 
-interface Stripe{
-  type: 'stripe';
-  card: string;
-  cvc: string;
-}
-
-interface PayPal{
-  type: 'paypal';
-  email: string;
-}
- // keeps interfaces separate
-type CheckoutCard = Order & Stripe;
-type CheckoutPayPal = Order & PayPal;
-
-const order: Order = {
-  id: 'xj28s',
-  amount: 100,
-  currency: 'USD'
-};
-
-const orderCard: CheckoutCard = {
-  ...order,
-  type: 'stripe',
-  card: '1000 2000 3000 4000',
-  cvc:'123'
-};
-
-const orderPayPal: CheckoutPayPal = {
-  ...order,
-  type:'paypal',
-  email: 'abc@def.com'
-};
-
-type Payload = CheckoutCard | CheckoutPayPal;
-function checkout(payload: Payload) {
-  if (payload.type === 'stripe') {
-    console.log(payload.card, payload.cvc);
+  addItem(item: T): void{
+    this.list.push(item);
   }
-  if (payload.type === 'paypal') {
-    console.log(payload.email);
+
+  getList(): T[]{
+    return this.list;
   }
 }
 
-/* Interfaces vs Type Aliases */
-interface Item{
-  songs: number;
-}
-interface Artist extends Item{
-  name: string;
-}
- 
-interface Artist{
-  getSongs(): number;
-}
-type Artist2 = { name: string } & Item;
 
-//explore
-const newArtist: Artist = {
-  name: 'ABC',
-  songs: 5,
-  getSongs() {
-    return this.songs;
-  }
+const list = new List<Pizza>();
+
+list.addItem(new Pizza('Pepperoni', 15));
+// list.addItem({ coupon: 'pizza25' }); // will error
+
+const pizzas = list.getList();
+
+class Coupon{
+  constructor(private name: string){}
 }
+const anotherList = new List<Coupon>();
 
-/* Interfaces vs Classes */
-
-interface IArtist{
-  name: string;
-}
-
-class ArtistCreator /*implements IArtist*/{
-  constructor(public name:string){ }
-}
-
-function artistFactory({ name }: ArtistCreator) {
-  return { id: 101, name };
-}
-
-artistFactory({ name: 'Todd' });
+anotherList.addItem(new Coupon('PIZA25'));
