@@ -1,0 +1,6 @@
+{ // inherits from tsconfig-base
+    "extends": "../tsconfig-base",
+    "compilerOptions":{
+        "noImplicitAny": true
+    }
+}
