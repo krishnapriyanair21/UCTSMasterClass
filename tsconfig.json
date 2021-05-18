@@ -1,11 +1,15 @@
 { // "base" tsconfig
   "compilerOptions": {
     "target": "es5",
-    "module": "system", // from commonjs
+    "module": "commonjs", 
     "lib": ["dom", "es6"],
-    //"outDir": "dist",
-    "outFile": "dist/bundle.js",
-    "noImplicitAny": true,
-    "noEmitOnError": true
+    "outDir": "dist",
+    //"outFile": "dist/bundle.js",
+    //"noImplicitAny": true,
+    "noEmitOnError": true,
+    "inlineSourceMap": true
+    // "sourceMap": true,
+    // "inlineSources": true,
+    // "mapRoot": "/mappings/"
     }
 }

@@ -12,4 +12,9 @@
 /* Output Locations, Tweaks and Emitting On Error */
 //outDir
 //outFile
-console.log('app')
+// console.log('app')
+
+/* Emitting Source Maps */
+class Person{
+  name:string = "Krishna"
+}
