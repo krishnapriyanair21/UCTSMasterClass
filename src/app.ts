@@ -21,9 +21,12 @@
 
 /* Transpiling and Experimental Features */
 
-export class Person{
-  constructor(private name: string){}
-  getName(){
-    return this.name;
-  }
-}
+// export class Person{
+//   constructor(private name: string){}
+//   getName(){
+//     return this.name;
+//   }
+// }
+
+/* Understanding “lib” and ES libraries */
+Array.from(document.querySelectorAll('*'));
