@@ -29,4 +29,6 @@
 // }
 
 /* Understanding “lib” and ES libraries */
-Array.from(document.querySelectorAll('*'));
+// Array.from(document.querySelectorAll('*'));
+
+/* Strict Flags for Enhanced Safety */
