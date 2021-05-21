@@ -4,10 +4,11 @@
     "module": "commonjs", 
     "lib": ["dom", "es6"],
     "outDir": "dist",
-    // "traceResolution": true,
-    // "diagnostics": true,
-    // "listFiles": true,
-    // "listEmittedFiles": true,
-    // "pretty": true,
+    // defaults for all below are false
+    "noUnusedLocals": true, // unused variables
+    "noUnusedParameters": true, // unused parameters
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitReturns": true, // always return a value
+
     }
 }

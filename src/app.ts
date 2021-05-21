@@ -35,3 +35,5 @@
 
 /* CLI Output Tweaks */
 // const names: string = 123; // test error messages
+
+/* Enforcing Code Quality */
