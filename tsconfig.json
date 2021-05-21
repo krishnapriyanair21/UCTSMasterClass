@@ -4,11 +4,7 @@
     "module": "commonjs", 
     "lib": ["dom", "es6"],
     "outDir": "dist",
-    // defaults for all below are false
-    "noUnusedLocals": true, // unused variables
-    "noUnusedParameters": true, // unused parameters
-    "noFallthroughCasesInSwitch": true,
-    "noImplicitReturns": true, // always return a value
-
+    "noEmitHelpers": true,
+    "importHelpers": true
     }
 }

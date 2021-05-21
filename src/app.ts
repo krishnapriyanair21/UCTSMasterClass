@@ -37,3 +37,8 @@
 // const names: string = 123; // test error messages
 
 /* Enforcing Code Quality */
+
+/* Performance Bundling and tslib */
+export class App { }
+
+// npm i tslib 
