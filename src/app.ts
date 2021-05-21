@@ -32,3 +32,6 @@
 // Array.from(document.querySelectorAll('*'));
 
 /* Strict Flags for Enhanced Safety */
+
+/* CLI Output Tweaks */
+// const names: string = 123; // test error messages

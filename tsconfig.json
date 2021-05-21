@@ -4,13 +4,10 @@
     "module": "commonjs", 
     "lib": ["dom", "es6"],
     "outDir": "dist",
-    "strict": true, // for TS compiler
-    // strict implies all of these
-    "noImplicitAny": true,
-    "noImplicitThis": true,
-    "alwaysStrict": true,
-    "strictNullChecks": true,
-    "strictFunctionTypes": true,
-    "strictPropertyInitialization": true
+    // "traceResolution": true,
+    // "diagnostics": true,
+    // "listFiles": true,
+    // "listEmittedFiles": true,
+    // "pretty": true,
     }
 }
