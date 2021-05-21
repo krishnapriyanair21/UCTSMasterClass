@@ -14,7 +14,16 @@
 //outFile
 // console.log('app')
 
-/* Emitting Source Maps */
-class Person{
-  name:string = "Krishna"
+// /* Emitting Source Maps */
+// class Person{
+//   name:string = "Krishna"
+// }
+
+/* Transpiling and Experimental Features */
+
+export class Person{
+  constructor(private name: string){}
+  getName(){
+    return this.name;
+  }
 }

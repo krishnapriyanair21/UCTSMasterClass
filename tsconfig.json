@@ -1,15 +1,15 @@
-{ // "base" tsconfig
+{ 
   "compilerOptions": {
-    "target": "es5",
+    "target": "es2015", 
+        //default = es3
+        // using es5
+        // es6/es2015 is also an option 
+        // es2016, es2017, esNext
     "module": "commonjs", 
     "lib": ["dom", "es6"],
     "outDir": "dist",
-    //"outFile": "dist/bundle.js",
-    //"noImplicitAny": true,
-    "noEmitOnError": true,
-    "inlineSourceMap": true
-    // "sourceMap": true,
-    // "inlineSources": true,
-    // "mapRoot": "/mappings/"
+    // for experimental features 
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
     }
 }
